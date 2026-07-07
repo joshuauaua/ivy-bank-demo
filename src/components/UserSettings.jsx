@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './UserSettings.css'
 import { useTheme } from '../context/ThemeContext'
+import { SUPPORTED_CURRENCIES } from '../utils/currency'
 
 function UserSettings({ onBack }) {
   const { theme, toggleTheme } = useTheme()
@@ -13,7 +14,8 @@ function UserSettings({ onBack }) {
     address: '123 Main Street',
     city: 'New York',
     state: 'NY',
-    zipCode: '10001'
+    zipCode: '10001',
+    preferredCurrency: 'USD'
   })
 
   const [securityData, setSecurityData] = useState({
@@ -154,6 +156,23 @@ function UserSettings({ onBack }) {
                 onChange={handleProfileChange}
                 required
               />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="preferredCurrency">Preferred Currency</label>
+              <select
+                id="preferredCurrency"
+                name="preferredCurrency"
+                value={profileData.preferredCurrency}
+                onChange={handleProfileChange}
+                required
+              >
+                {Object.values(SUPPORTED_CURRENCIES).map(currency => (
+                  <option key={currency.code} value={currency.code}>
+                    {currency.name} ({currency.symbol})
+                  </option>
+                ))}
+              </select>
             </div>
 
             <h3>Address</h3>
