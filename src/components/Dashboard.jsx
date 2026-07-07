@@ -1,23 +1,7 @@
 import { useState } from 'react'
 import './Dashboard.css'
 
-function Dashboard({ onAccountClick }) {
-  const [accounts] = useState([
-    {
-      id: 1,
-      type: 'Checking',
-      accountNumber: '****4521',
-      balance: 12543.67,
-      available: 12543.67
-    },
-    {
-      id: 2,
-      type: 'Savings',
-      accountNumber: '****8732',
-      balance: 45230.12,
-      available: 45230.12
-    }
-  ])
+function Dashboard({ accounts, onAccountClick, onTransferClick }) {
 
   const [transactions] = useState([
     { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, type: 'debit' },
@@ -65,7 +49,7 @@ function Dashboard({ onAccountClick }) {
       <section className="quick-actions">
         <h3>Quick Actions</h3>
         <div className="actions-grid">
-          <button className="action-btn">
+          <button className="action-btn" onClick={onTransferClick}>
             <span className="action-icon">💸</span>
             <span>Transfer Money</span>
           </button>

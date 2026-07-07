@@ -1,6 +1,6 @@
 import './AccountDetails.css'
 
-function AccountDetails({ account, onBack }) {
+function AccountDetails({ account, onBack, onTransferClick }) {
   const recentTransactions = [
     { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, balance: 12543.67 },
     { id: 2, date: '2026-07-05', description: 'Direct Deposit - Salary', amount: 3500.00, balance: 12633.66 },
@@ -39,7 +39,7 @@ function AccountDetails({ account, onBack }) {
       </div>
 
       <div className="account-actions">
-        <button className="action-btn-primary">Transfer</button>
+        <button className="action-btn-primary" onClick={onTransferClick}>Transfer</button>
         <button className="action-btn-secondary">Download Statement</button>
         <button className="action-btn-secondary">Order Checks</button>
       </div>
