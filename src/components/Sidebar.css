@@ -19,6 +19,20 @@
   color: white;
 }
 
+.logo-button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.logo-button:hover {
+  opacity: 0.8;
+}
+
 .user-info {
   display: flex;
   align-items: center;

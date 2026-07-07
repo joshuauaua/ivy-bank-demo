@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './LoanApplication.css'
+import { formatCurrency, SUPPORTED_CURRENCIES } from '../utils/currency'
 
 function LoanApplication({ onBack }) {
   const [formData, setFormData] = useState({
@@ -8,7 +9,8 @@ function LoanApplication({ onBack }) {
     purpose: '',
     term: '36',
     employmentStatus: 'employed',
-    annualIncome: ''
+    annualIncome: '',
+    currency: 'USD'
   })
 
   const handleChange = (e) => {
@@ -35,17 +37,17 @@ function LoanApplication({ onBack }) {
       <div className="loan-types">
         <div className="loan-type-card">
           <h4>Personal Loan</h4>
-          <p>Up to $50,000</p>
+          <p>Up to {formatCurrency(50000, formData.currency)}</p>
           <p className="rate">APR from 6.99%</p>
         </div>
         <div className="loan-type-card">
           <h4>Auto Loan</h4>
-          <p>Up to $75,000</p>
+          <p>Up to {formatCurrency(75000, formData.currency)}</p>
           <p className="rate">APR from 4.49%</p>
         </div>
         <div className="loan-type-card">
           <h4>Home Equity</h4>
-          <p>Up to $250,000</p>
+          <p>Up to {formatCurrency(250000, formData.currency)}</p>
           <p className="rate">APR from 5.99%</p>
         </div>
       </div>
@@ -64,6 +66,23 @@ function LoanApplication({ onBack }) {
             <option value="auto">Auto Loan</option>
             <option value="home">Home Equity Loan</option>
             <option value="business">Business Loan</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="currency">Currency</label>
+          <select
+            id="currency"
+            name="currency"
+            value={formData.currency}
+            onChange={handleChange}
+            required
+          >
+            {Object.values(SUPPORTED_CURRENCIES).map(currency => (
+              <option key={currency.code} value={currency.code}>
+                {currency.name} ({currency.symbol})
+              </option>
+            ))}
           </select>
         </div>
 
