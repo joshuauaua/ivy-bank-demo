@@ -27,6 +27,13 @@ function Sidebar({ activeView, setActiveView }) {
           Dashboard
         </button>
         <button
+          className={`nav-item ${activeView === 'transfer' ? 'active' : ''}`}
+          onClick={() => setActiveView('transfer')}
+        >
+          <span className="nav-icon">💸</span>
+          Transfers
+        </button>
+        <button
           className={`nav-item ${activeView === 'loan' ? 'active' : ''}`}
           onClick={() => setActiveView('loan')}
         >

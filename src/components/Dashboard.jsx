@@ -2,26 +2,8 @@ import { useState } from 'react'
 import './Dashboard.css'
 import { formatCurrency } from '../utils/currency'
 
-function Dashboard({ onAccountClick }) {
+function Dashboard({ accounts, onAccountClick, onTransferClick }) {
   const [searchQuery, setSearchQuery] = useState('')
-  const [accounts] = useState([
-    {
-      id: 1,
-      type: 'Checking',
-      accountNumber: '****4521',
-      balance: 12543.67,
-      available: 12543.67,
-      currency: 'USD'
-    },
-    {
-      id: 2,
-      type: 'Savings',
-      accountNumber: '****8732',
-      balance: 45230.12,
-      available: 45230.12,
-      currency: 'EUR'
-    }
-  ])
 
   const [transactions] = useState([
     { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, type: 'debit', currency: 'USD' },
@@ -90,7 +72,7 @@ function Dashboard({ onAccountClick }) {
       <section className="quick-actions">
         <h3>Quick Actions</h3>
         <div className="actions-grid">
-          <button className="action-btn">
+          <button className="action-btn" onClick={onTransferClick}>
             <span className="action-icon">💸</span>
             <span>Transfer Money</span>
           </button>
