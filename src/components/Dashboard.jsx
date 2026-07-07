@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './Dashboard.css'
 
 function Dashboard({ onAccountClick }) {
+  const [searchQuery, setSearchQuery] = useState('')
   const [accounts] = useState([
     {
       id: 1,
@@ -86,21 +87,41 @@ function Dashboard({ onAccountClick }) {
 
       <section className="transactions-section">
         <h3>Recent Transactions</h3>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search transactions..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
         <div className="transactions-list">
-          {transactions.map(transaction => (
-            <div key={transaction.id} className="transaction-item">
-              <div className="transaction-icon">
-                {transaction.type === 'credit' ? '💰' : transaction.type === 'transfer' ? '🔄' : '💳'}
+          {(() => {
+            const filteredTransactions = searchQuery
+              ? transactions.filter(transaction =>
+                  transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+              : transactions
+
+            if (filteredTransactions.length === 0) {
+              return <div className="no-transactions">No transactions found</div>
+            }
+
+            return filteredTransactions.map(transaction => (
+              <div key={transaction.id} className="transaction-item">
+                <div className="transaction-icon">
+                  {transaction.type === 'credit' ? '💰' : transaction.type === 'transfer' ? '🔄' : '💳'}
+                </div>
+                <div className="transaction-details">
+                  <div className="transaction-description">{transaction.description}</div>
+                  <div className="transaction-date">{transaction.date}</div>
+                </div>
+                <div className={`transaction-amount ${transaction.type}`}>
+                  {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
               </div>
-              <div className="transaction-details">
-                <div className="transaction-description">{transaction.description}</div>
-                <div className="transaction-date">{transaction.date}</div>
-              </div>
-              <div className={`transaction-amount ${transaction.type}`}>
-                {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </div>
-            </div>
-          ))}
+            ))
+          })()}
         </div>
       </section>
     </div>
