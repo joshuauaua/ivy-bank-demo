@@ -4,7 +4,11 @@ function Sidebar({ activeView, setActiveView }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <h1 className="logo">🏦 Ivy Bank</h1>
+        <h1 className="logo">
+          <button className="logo-button" onClick={() => setActiveView('dashboard')}>
+            🏦 Ivy Bank
+          </button>
+        </h1>
         <div className="user-info">
           <div className="avatar">JD</div>
           <div className="user-details">
