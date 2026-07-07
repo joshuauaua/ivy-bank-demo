@@ -73,19 +73,15 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
         <h3>Quick Actions</h3>
         <div className="actions-grid">
           <button className="action-btn" onClick={onTransferClick}>
-            <span className="action-icon">💸</span>
             <span>Transfer Money</span>
           </button>
           <button className="action-btn">
-            <span className="action-icon">💳</span>
             <span>Pay Bills</span>
           </button>
           <button className="action-btn">
-            <span className="action-icon">📱</span>
             <span>Mobile Deposit</span>
           </button>
           <button className="action-btn">
-            <span className="action-icon">📄</span>
             <span>View Statements</span>
           </button>
         </div>
@@ -115,9 +111,6 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
 
             return filteredTransactions.map(transaction => (
               <div key={transaction.id} className="transaction-item">
-                <div className="transaction-icon">
-                  {transaction.type === 'credit' ? '💰' : transaction.type === 'transfer' ? '🔄' : '💳'}
-                </div>
                 <div className="transaction-details">
                   <div className="transaction-description">{transaction.description}</div>
                   <div className="transaction-date">{transaction.date}</div>
