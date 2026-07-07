@@ -125,10 +125,6 @@
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
 }
 
-.action-icon {
-  font-size: 2rem;
-}
-
 .transactions-list {
   background: white;
   border-radius: 12px;
@@ -150,11 +146,6 @@
 
 .transaction-item:hover {
   background-color: #f9fafb;
-}
-
-.transaction-icon {
-  font-size: 1.5rem;
-  margin-right: 1rem;
 }
 
 .transaction-details {
