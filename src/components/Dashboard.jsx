@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './Dashboard.css'
+import { formatCurrency } from '../utils/currency'
 
 function Dashboard({ onAccountClick }) {
   const [accounts] = useState([
@@ -8,27 +9,37 @@ function Dashboard({ onAccountClick }) {
       type: 'Checking',
       accountNumber: '****4521',
       balance: 12543.67,
-      available: 12543.67
+      available: 12543.67,
+      currency: 'USD'
     },
     {
       id: 2,
       type: 'Savings',
       accountNumber: '****8732',
       balance: 45230.12,
-      available: 45230.12
+      available: 45230.12,
+      currency: 'EUR'
     }
   ])
 
   const [transactions] = useState([
-    { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, type: 'debit' },
-    { id: 2, date: '2026-07-05', description: 'Direct Deposit - Salary', amount: 3500.00, type: 'credit' },
-    { id: 3, date: '2026-07-04', description: 'Starbucks', amount: -12.45, type: 'debit' },
-    { id: 4, date: '2026-07-03', description: 'Transfer to Savings', amount: -500.00, type: 'transfer' },
-    { id: 5, date: '2026-07-02', description: 'Grocery Store', amount: -156.78, type: 'debit' },
-    { id: 6, date: '2026-07-01', description: 'Netflix Subscription', amount: -15.99, type: 'debit' },
+    { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, type: 'debit', currency: 'USD' },
+    { id: 2, date: '2026-07-05', description: 'Direct Deposit - Salary', amount: 3500.00, type: 'credit', currency: 'USD' },
+    { id: 3, date: '2026-07-04', description: 'Starbucks', amount: -12.45, type: 'debit', currency: 'USD' },
+    { id: 4, date: '2026-07-03', description: 'Transfer to Savings', amount: -500.00, type: 'transfer', currency: 'USD' },
+    { id: 5, date: '2026-07-02', description: 'Grocery Store', amount: -156.78, type: 'debit', currency: 'USD' },
+    { id: 6, date: '2026-07-01', description: 'Netflix Subscription', amount: -15.99, type: 'debit', currency: 'USD' },
   ])
 
-  const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0)
+  // Group balances by currency for multi-currency display
+  const balancesByCurrency = accounts.reduce((acc, account) => {
+    const currency = account.currency || 'USD'
+    acc[currency] = (acc[currency] || 0) + account.balance
+    return acc
+  }, {})
+
+  const currencies = Object.keys(balancesByCurrency)
+  const isMultiCurrency = currencies.length > 1
 
   return (
     <div className="dashboard">
@@ -39,7 +50,20 @@ function Dashboard({ onAccountClick }) {
 
       <div className="total-balance-card">
         <div className="total-balance-label">Total Balance</div>
-        <div className="total-balance-amount">${totalBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+        {isMultiCurrency ? (
+          <div className="total-balance-amount">
+            {currencies.map((currency, index) => (
+              <span key={currency}>
+                {formatCurrency(balancesByCurrency[currency], currency)}
+                {index < currencies.length - 1 && ' | '}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <div className="total-balance-amount">
+            {formatCurrency(balancesByCurrency[currencies[0]], currencies[0])}
+          </div>
+        )}
       </div>
 
       <section className="accounts-section">
@@ -54,9 +78,9 @@ function Dashboard({ onAccountClick }) {
               <div className="account-type">{account.type}</div>
               <div className="account-number">{account.accountNumber}</div>
               <div className="account-balance">
-                ${account.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {formatCurrency(account.balance, account.currency)}
               </div>
-              <div className="account-available">Available: ${account.available.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+              <div className="account-available">Available: {formatCurrency(account.available, account.currency)}</div>
             </div>
           ))}
         </div>
@@ -97,7 +121,7 @@ function Dashboard({ onAccountClick }) {
                 <div className="transaction-date">{transaction.date}</div>
               </div>
               <div className={`transaction-amount ${transaction.type}`}>
-                {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {transaction.amount > 0 ? '+' : ''}{formatCurrency(Math.abs(transaction.amount), transaction.currency)}
               </div>
             </div>
           ))}
