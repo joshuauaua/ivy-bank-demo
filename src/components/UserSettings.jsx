@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import './UserSettings.css'
+import { useTheme } from '../context/ThemeContext'
 
 function UserSettings({ onBack }) {
+  const { theme, toggleTheme } = useTheme()
   const [activeTab, setActiveTab] = useState('profile')
   const [profileData, setProfileData] = useState({
     firstName: 'John',
@@ -92,6 +94,12 @@ function UserSettings({ onBack }) {
           onClick={() => setActiveTab('notifications')}
         >
           Notifications
+        </button>
+        <button
+          className={`tab ${activeTab === 'appearance' ? 'active' : ''}`}
+          onClick={() => setActiveTab('appearance')}
+        >
+          Appearance
         </button>
       </div>
 
@@ -321,6 +329,26 @@ function UserSettings({ onBack }) {
 
             <button type="submit" className="submit-btn">Save Preferences</button>
           </form>
+        )}
+
+        {activeTab === 'appearance' && (
+          <div className="settings-form">
+            <h3>Theme</h3>
+            <div className="theme-setting">
+              <div className="theme-info">
+                <span className="theme-label">Dark Mode</span>
+                <p className="theme-description">Switch between light and dark appearance</p>
+              </div>
+              <label className="theme-toggle">
+                <input
+                  type="checkbox"
+                  checked={theme === 'dark'}
+                  onChange={toggleTheme}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
         )}
       </div>
     </div>
