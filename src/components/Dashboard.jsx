@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './Dashboard.css'
 
 function Dashboard({ onAccountClick }) {
+  const [searchQuery, setSearchQuery] = useState('')
   const [accounts] = useState([
     {
       id: 1,
@@ -149,21 +150,43 @@ function Dashboard({ onAccountClick }) {
             This Month
           </button>
         </div>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search transactions..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
         <div className="transactions-list">
-          {filteredTransactions.map(transaction => (
-            <div key={transaction.id} className="transaction-item">
-              <div className="transaction-icon">
-                {transaction.type === 'credit' ? '💰' : transaction.type === 'transfer' ? '🔄' : '💳'}
+          {(() => {
+            // Apply both time filter and search query
+            const timeFiltered = filteredTransactions
+            const finalFiltered = searchQuery
+              ? timeFiltered.filter(transaction =>
+                  transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+              : timeFiltered
+
+            if (finalFiltered.length === 0) {
+              return <div className="no-transactions">No transactions found</div>
+            }
+
+            return finalFiltered.map(transaction => (
+              <div key={transaction.id} className="transaction-item">
+                <div className="transaction-icon">
+                  {transaction.type === 'credit' ? '💰' : transaction.type === 'transfer' ? '🔄' : '💳'}
+                </div>
+                <div className="transaction-details">
+                  <div className="transaction-description">{transaction.description}</div>
+                  <div className="transaction-date">{transaction.date}</div>
+                </div>
+                <div className={`transaction-amount ${transaction.type}`}>
+                  {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
               </div>
-              <div className="transaction-details">
-                <div className="transaction-description">{transaction.description}</div>
-                <div className="transaction-date">{transaction.date}</div>
-              </div>
-              <div className={`transaction-amount ${transaction.type}`}>
-                {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </div>
-            </div>
-          ))}
+            ))
+          })()}
         </div>
       </section>
     </div>
