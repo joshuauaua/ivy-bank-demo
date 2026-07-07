@@ -210,6 +210,26 @@
   color: #f59e0b;
 }
 
+.load-more-btn {
+  display: block;
+  margin: 1.5rem auto 0;
+  padding: 0.75rem 2rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #1a1f36;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.load-more-btn:hover {
+  border-color: #667eea;
+  background: #667eea;
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
 @media (max-width: 768px) {
   .dashboard-header h2 {
     font-size: 1.5rem;
