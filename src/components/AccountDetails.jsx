@@ -1,4 +1,5 @@
 import './AccountDetails.css'
+import { formatCurrency } from '../utils/currency'
 
 function AccountDetails({ account, onBack }) {
   const recentTransactions = [
@@ -27,13 +28,13 @@ function AccountDetails({ account, onBack }) {
         <div className="summary-card">
           <div className="summary-label">Current Balance</div>
           <div className="summary-amount">
-            ${account.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {formatCurrency(account.balance, account.currency)}
           </div>
         </div>
         <div className="summary-card">
           <div className="summary-label">Available Balance</div>
           <div className="summary-amount">
-            ${account.available.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {formatCurrency(account.available, account.currency)}
           </div>
         </div>
       </div>
@@ -58,10 +59,10 @@ function AccountDetails({ account, onBack }) {
               <div className="col-date">{transaction.date}</div>
               <div className="col-description">{transaction.description}</div>
               <div className={`col-amount ${transaction.amount < 0 ? 'negative' : 'positive'}`}>
-                {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {transaction.amount > 0 ? '+' : ''}{formatCurrency(Math.abs(transaction.amount), account.currency)}
               </div>
               <div className="col-balance">
-                ${transaction.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {formatCurrency(transaction.balance, account.currency)}
               </div>
             </div>
           ))}
