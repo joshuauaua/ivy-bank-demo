@@ -28,6 +28,11 @@ function App() {
     }
   ])
 
+  const navigateHome = () => {
+    setActiveView('dashboard')
+    setSelectedAccount(null)
+  }
+
   const renderView = () => {
     switch (activeView) {
       case 'dashboard':
@@ -70,7 +75,7 @@ function App() {
   return (
     <ThemeProvider>
       <div className="app">
-        <Navbar activeView={activeView} setActiveView={setActiveView} />
+        <Navbar activeView={activeView} setActiveView={setActiveView} onLogoClick={navigateHome} />
         <main className="main-content">
           {renderView()}
         </main>

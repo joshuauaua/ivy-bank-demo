@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import './Navbar.css'
 
-function Navbar({ activeView, setActiveView }) {
+function Navbar({ activeView, setActiveView, onLogoClick }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <nav className="navbar">
       <div className="navbar-content">
         <div className="navbar-left">
-          <button className="logo-button" onClick={() => setActiveView('dashboard')}>
+          <button className="logo-button" onClick={onLogoClick || (() => setActiveView('dashboard'))}>
             🏦 Ivy Bank
           </button>
         </div>
