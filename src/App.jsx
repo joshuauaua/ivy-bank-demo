@@ -8,6 +8,8 @@ import UserSettings from './components/UserSettings'
 import { ThemeProvider } from './context/ThemeContext'
 import { LanguageProvider } from './i18n/LanguageContext'
 import TransferFunds from './components/TransferFunds'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 function App() {
   const [activeView, setActiveView] = useState('dashboard')
@@ -61,6 +63,8 @@ function App() {
         return <LoanApplication onBack={() => setActiveView('dashboard')} />
       case 'settings':
         return <UserSettings onBack={() => setActiveView('dashboard')} />
+      case 'contact':
+        return <Contact onBack={() => setActiveView('dashboard')} />
       default:
         return <Dashboard
           accounts={accounts}
@@ -81,6 +85,7 @@ function App() {
           <main className="main-content">
             {renderView()}
           </main>
+          <Footer />
         </div>
       </LanguageProvider>
     </ThemeProvider>
