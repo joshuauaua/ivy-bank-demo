@@ -44,6 +44,12 @@ function Sidebar({ activeView, setActiveView }) {
         >
           Settings
         </button>
+        <button
+          className={`nav-item ${activeView === 'contact' ? 'active' : ''}`}
+          onClick={() => setActiveView('contact')}
+        >
+          Contact
+        </button>
       </nav>
 
       <div className="sidebar-footer">
