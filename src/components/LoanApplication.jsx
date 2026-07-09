@@ -1,23 +1,54 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './LoanApplication.css'
 import { formatCurrency, SUPPORTED_CURRENCIES } from '../utils/currency'
 import { useTranslation } from '../i18n'
+
+const LOAN_CONFIG = {
+  personal: { minAmount: 1000, maxAmount: 50000, stepAmount: 500, minTerm: 12, maxTerm: 60, rate: 6.99 },
+  auto:     { minAmount: 5000, maxAmount: 75000, stepAmount: 1000, minTerm: 12, maxTerm: 84, rate: 4.49 },
+  home:     { minAmount: 10000, maxAmount: 250000, stepAmount: 5000, minTerm: 60, maxTerm: 360, rate: 5.99 },
+  business: { minAmount: 5000, maxAmount: 100000, stepAmount: 1000, minTerm: 12, maxTerm: 84, rate: 7.49 }
+}
 
 function LoanApplication({ onBack }) {
   const { t } = useTranslation()
   const [formData, setFormData] = useState({
     loanType: 'personal',
-    amount: '',
+    amount: 25000,
     purpose: '',
-    term: '36',
+    term: 36,
     employmentStatus: 'employed',
     annualIncome: '',
     currency: 'USD'
   })
 
+  useEffect(() => {
+    const config = LOAN_CONFIG[formData.loanType]
+    const midAmount = Math.floor((config.minAmount + config.maxAmount) / 2)
+    const midTerm = Math.floor((config.minTerm + config.maxTerm) / 2)
+    setFormData(prev => ({
+      ...prev,
+      amount: midAmount,
+      term: midTerm
+    }))
+  }, [formData.loanType])
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  const calculateMonthlyPayment = () => {
+    const config = LOAN_CONFIG[formData.loanType]
+    const P = parseFloat(formData.amount)
+    const r = (config.rate / 100) / 12
+    const n = parseFloat(formData.term)
+
+    if (P && r && n) {
+      const monthlyPayment = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)
+      return monthlyPayment.toFixed(2)
+    }
+    return '0.00'
   }
 
   const handleSubmit = (e) => {
@@ -90,15 +121,24 @@ function LoanApplication({ onBack }) {
 
         <div className="form-group">
           <label htmlFor="amount">{t('loanAmount')}</label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            placeholder={t('enterAmount')}
-            value={formData.amount}
-            onChange={handleChange}
-            required
-          />
+          <div className="slider-group">
+            <input
+              type="range"
+              id="amount"
+              name="amount"
+              min={LOAN_CONFIG[formData.loanType].minAmount}
+              max={LOAN_CONFIG[formData.loanType].maxAmount}
+              step={LOAN_CONFIG[formData.loanType].stepAmount}
+              value={formData.amount}
+              onChange={handleChange}
+              required
+            />
+            <div className="slider-labels">
+              <span>${LOAN_CONFIG[formData.loanType].minAmount.toLocaleString()}</span>
+              <span className="slider-value">${formData.amount.toLocaleString()}</span>
+              <span>${LOAN_CONFIG[formData.loanType].maxAmount.toLocaleString()}</span>
+            </div>
+          </div>
         </div>
 
         <div className="form-group">
@@ -116,20 +156,29 @@ function LoanApplication({ onBack }) {
 
         <div className="form-group">
           <label htmlFor="term">{t('loanTerm')}</label>
-          <select
-            id="term"
-            name="term"
-            value={formData.term}
-            onChange={handleChange}
-            required
-          >
-            <option value="12">12 {t('months')}</option>
-            <option value="24">24 {t('months')}</option>
-            <option value="36">36 {t('months')}</option>
-            <option value="48">48 {t('months')}</option>
-            <option value="60">60 {t('months')}</option>
-            <option value="84">84 {t('months')}</option>
-          </select>
+          <div className="slider-group">
+            <input
+              type="range"
+              id="term"
+              name="term"
+              min={LOAN_CONFIG[formData.loanType].minTerm}
+              max={LOAN_CONFIG[formData.loanType].maxTerm}
+              step="12"
+              value={formData.term}
+              onChange={handleChange}
+              required
+            />
+            <div className="slider-labels">
+              <span>{LOAN_CONFIG[formData.loanType].minTerm} mo</span>
+              <span className="slider-value">{formData.term} mo</span>
+              <span>{LOAN_CONFIG[formData.loanType].maxTerm} mo</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="payment-estimate">
+          <span>{t('estimatedMonthlyPayment')}</span>
+          <span className="estimate-value">${calculateMonthlyPayment()}</span>
         </div>
 
         <div className="form-group">

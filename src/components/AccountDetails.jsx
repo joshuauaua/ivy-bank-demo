@@ -15,6 +15,28 @@ function AccountDetails({ account, onBack, onTransferClick }) {
     { id: 8, date: '2026-06-29', description: 'Gas Station', amount: -45.00, balance: 9484.38 },
   ]
 
+  const downloadCSV = () => {
+    const headers = 'Date,Description,Amount,Balance\n'
+    const rows = recentTransactions.map(transaction => {
+      const description = `"${transaction.description.replace(/"/g, '""')}"`
+      return `${transaction.date},${description},${transaction.amount},${transaction.balance}`
+    }).join('\n')
+
+    const csvContent = headers + rows
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+
+    const today = new Date().toISOString().split('T')[0]
+    const filename = `${account.type}_Statement_${today}.csv`
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    link.click()
+
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div className="account-details">
       <button className="back-btn" onClick={onBack}>
@@ -43,7 +65,7 @@ function AccountDetails({ account, onBack, onTransferClick }) {
 
       <div className="account-actions">
         <button className="action-btn-primary" onClick={onTransferClick}>{t('transfer')}</button>
-        <button className="action-btn-secondary">{t('downloadStatement')}</button>
+        <button className="action-btn-secondary" onClick={downloadCSV}>{t('downloadStatement')}</button>
         <button className="action-btn-secondary">{t('orderChecks')}</button>
       </div>
 
