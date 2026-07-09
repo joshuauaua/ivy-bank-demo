@@ -7,6 +7,7 @@ import LoanApplication from './components/LoanApplication'
 import UserSettings from './components/UserSettings'
 import { ThemeProvider } from './context/ThemeContext'
 import TransferFunds from './components/TransferFunds'
+import Contact from './components/Contact'
 import Footer from './components/Footer'
 
 function App() {
@@ -61,6 +62,8 @@ function App() {
         return <LoanApplication onBack={() => setActiveView('dashboard')} />
       case 'settings':
         return <UserSettings onBack={() => setActiveView('dashboard')} />
+      case 'contact':
+        return <Contact onBack={() => setActiveView('dashboard')} />
       default:
         return <Dashboard
           accounts={accounts}

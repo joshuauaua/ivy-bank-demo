@@ -48,6 +48,16 @@ function Navbar({ activeView, setActiveView, onLogoClick }) {
             <span className="nav-icon">⚙️</span>
             Settings
           </button>
+          <button
+            className={`nav-item ${activeView === 'contact' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveView('contact')
+              setMenuOpen(false)
+            }}
+          >
+            <span className="nav-icon">📞</span>
+            Contact
+          </button>
         </div>
 
         <div className="navbar-right">
