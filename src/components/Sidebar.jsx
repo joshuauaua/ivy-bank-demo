@@ -1,11 +1,11 @@
 import './Sidebar.css'
 
-function Sidebar({ activeView, setActiveView }) {
+function Sidebar({ activeView, setActiveView, onLogoClick }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
         <h1 className="logo">
-          <button className="logo-button" onClick={() => setActiveView('dashboard')}>
+          <button className="logo-button" onClick={onLogoClick}>
             Ivy Bank
           </button>
         </h1>
