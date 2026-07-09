@@ -8,12 +8,12 @@
 
 .loan-header h2 {
   font-size: 2rem;
-  color: #1a1f36;
+  color: var(--text-primary);
   margin-bottom: 0.75rem;
 }
 
 .loan-header p {
-  color: #6b7280;
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
@@ -25,36 +25,36 @@
 }
 
 .loan-type-card {
-  background: white;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--shadow);
   text-align: center;
 }
 
 .loan-type-card h4 {
-  color: #1a1f36;
+  color: var(--text-primary);
   font-size: 1.1rem;
   margin-bottom: 0.75rem;
 }
 
 .loan-type-card p {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
 .loan-type-card .rate {
-  color: #667eea;
+  color: var(--accent);
   font-weight: 600;
   font-size: 1rem;
 }
 
 .loan-form {
-  background: white;
+  background: var(--bg-secondary);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--shadow);
 }
 
 .form-group {
@@ -64,7 +64,7 @@
 .form-group label {
   display: block;
   font-weight: 600;
-  color: #1a1f36;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
 }
@@ -74,18 +74,20 @@
 .form-group textarea {
   width: 100%;
   padding: 0.875rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
   transition: border-color 0.2s;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--accent);
 }
 
 .form-group textarea {
@@ -95,7 +97,7 @@
 
 .submit-btn {
   width: 100%;
-  background: #667eea;
+  background: var(--accent);
   color: white;
   border: none;
   padding: 1rem;
@@ -108,7 +110,7 @@
 }
 
 .submit-btn:hover {
-  background: #5568d3;
+  background: var(--accent-hover);
 }
 
 @media (max-width: 768px) {

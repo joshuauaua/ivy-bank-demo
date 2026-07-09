@@ -6,6 +6,8 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [visibleCount, setVisibleCount] = useState(6)
 
+  const [transactionFilter, setTransactionFilter] = useState('all')
+
   const [transactions] = useState([
     { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, type: 'debit', currency: 'USD' },
     { id: 2, date: '2026-07-05', description: 'Direct Deposit - Salary', amount: 3500.00, type: 'credit', currency: 'USD' },
@@ -36,6 +38,32 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
 
   const currencies = Object.keys(balancesByCurrency)
   const isMultiCurrency = currencies.length > 1
+
+  const filteredTransactions = transactions.filter(transaction => {
+    if (transactionFilter === 'all') return true
+
+    const transactionDate = new Date(transaction.date)
+    const today = new Date('2026-07-07') // Current date from firmware
+
+    if (transactionFilter === '7days') {
+      const sevenDaysAgo = new Date(today)
+      sevenDaysAgo.setDate(today.getDate() - 7)
+      return transactionDate >= sevenDaysAgo
+    }
+
+    if (transactionFilter === '30days') {
+      const thirtyDaysAgo = new Date(today)
+      thirtyDaysAgo.setDate(today.getDate() - 30)
+      return transactionDate >= thirtyDaysAgo
+    }
+
+    if (transactionFilter === 'thisMonth') {
+      return transactionDate.getMonth() === today.getMonth() &&
+             transactionDate.getFullYear() === today.getFullYear()
+    }
+
+    return true
+  })
 
   return (
     <div className="dashboard">
@@ -102,6 +130,32 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
 
       <section className="transactions-section">
         <h3>Recent Transactions</h3>
+        <div className="transaction-filters">
+          <button
+            className={`filter-btn ${transactionFilter === 'all' ? 'active' : ''}`}
+            onClick={() => setTransactionFilter('all')}
+          >
+            All
+          </button>
+          <button
+            className={`filter-btn ${transactionFilter === '7days' ? 'active' : ''}`}
+            onClick={() => setTransactionFilter('7days')}
+          >
+            Last 7 Days
+          </button>
+          <button
+            className={`filter-btn ${transactionFilter === '30days' ? 'active' : ''}`}
+            onClick={() => setTransactionFilter('30days')}
+          >
+            Last 30 Days
+          </button>
+          <button
+            className={`filter-btn ${transactionFilter === 'thisMonth' ? 'active' : ''}`}
+            onClick={() => setTransactionFilter('thisMonth')}
+          >
+            This Month
+          </button>
+        </div>
         <div className="search-bar">
           <input
             type="text"
@@ -112,30 +166,37 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
         </div>
         <div className="transactions-list">
           {(() => {
-            const filteredTransactions = searchQuery
-              ? transactions.filter(transaction =>
+            // Apply both time filter and search query
+            const timeFiltered = filteredTransactions
+            const finalFiltered = searchQuery
+              ? timeFiltered.filter(transaction =>
                   transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
                 )
-              : transactions
+              : timeFiltered
 
-            if (filteredTransactions.length === 0) {
+            if (finalFiltered.length === 0) {
               return <div className="no-transactions">No transactions found</div>
             }
 
-            return filteredTransactions.slice(0, visibleCount).map(transaction => (
+            // Apply load-more slicing when search is not active
+            const displayedTransactions = searchQuery 
+              ? finalFiltered 
+              : finalFiltered.slice(0, visibleCount)
+
+            return displayedTransactions.map(transaction => (
               <div key={transaction.id} className="transaction-item">
                 <div className="transaction-details">
                   <div className="transaction-description">{transaction.description}</div>
                   <div className="transaction-date">{transaction.date}</div>
                 </div>
                 <div className={`transaction-amount ${transaction.type}`}>
-                  {transaction.amount > 0 ? '+' : ''}{formatCurrency(Math.abs(transaction.amount), transaction.currency)}
+                  {formatCurrency(Math.abs(transaction.amount), transaction.currency, transaction.amount > 0)}
                 </div>
               </div>
             ))
           })()}
         </div>
-        {!searchQuery && visibleCount < transactions.length && (
+        {!searchQuery && transactionFilter === 'all' && visibleCount < transactions.length && (
           <button
             className="load-more-btn"
             onClick={() => setVisibleCount(prev => Math.min(prev + 5, transactions.length))}

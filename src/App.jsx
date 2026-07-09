@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar'
 import AccountDetails from './components/AccountDetails'
 import LoanApplication from './components/LoanApplication'
 import UserSettings from './components/UserSettings'
+import { ThemeProvider } from './context/ThemeContext'
 import TransferFunds from './components/TransferFunds'
 
 function App() {
@@ -67,12 +68,14 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <Sidebar activeView={activeView} setActiveView={setActiveView} />
-      <main className="main-content">
-        {renderView()}
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="app">
+        <Sidebar activeView={activeView} setActiveView={setActiveView} />
+        <main className="main-content">
+          {renderView()}
+        </main>
+      </div>
+    </ThemeProvider>
   )
 }
 
