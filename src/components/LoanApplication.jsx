@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './LoanApplication.css'
 import { formatCurrency, SUPPORTED_CURRENCIES } from '../utils/currency'
+import { useTranslation } from '../i18n'
 
 const LOAN_CONFIG = {
   personal: { minAmount: 1000, maxAmount: 50000, stepAmount: 500, minTerm: 12, maxTerm: 60, rate: 6.99 },
@@ -10,6 +11,7 @@ const LOAN_CONFIG = {
 }
 
 function LoanApplication({ onBack }) {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     loanType: 'personal',
     amount: 25000,
@@ -57,35 +59,35 @@ function LoanApplication({ onBack }) {
   return (
     <div className="loan-application">
       <button className="back-btn" onClick={onBack}>
-        ← Back to Dashboard
+        ← {t('backToDashboard')}
       </button>
 
       <div className="loan-header">
-        <h2>Apply for a Loan</h2>
-        <p>Complete the form below to apply for a loan. We'll review your application and get back to you within 2-3 business days.</p>
+        <h2>{t('loanApplication')}</h2>
+        <p>{t('loanApplicationDesc')}</p>
       </div>
 
       <div className="loan-types">
         <div className="loan-type-card">
-          <h4>Personal Loan</h4>
-          <p>Up to {formatCurrency(50000, formData.currency)}</p>
-          <p className="rate">APR from 6.99%</p>
+          <h4>{t('personalLoan')}</h4>
+          <p>{t('upTo')} {formatCurrency(50000, formData.currency)}</p>
+          <p className="rate">{t('aprFrom')} 6.99%</p>
         </div>
         <div className="loan-type-card">
-          <h4>Auto Loan</h4>
-          <p>Up to {formatCurrency(75000, formData.currency)}</p>
-          <p className="rate">APR from 4.49%</p>
+          <h4>{t('autoLoan')}</h4>
+          <p>{t('upTo')} {formatCurrency(75000, formData.currency)}</p>
+          <p className="rate">{t('aprFrom')} 4.49%</p>
         </div>
         <div className="loan-type-card">
-          <h4>Home Equity</h4>
-          <p>Up to {formatCurrency(250000, formData.currency)}</p>
-          <p className="rate">APR from 5.99%</p>
+          <h4>{t('homeEquity')}</h4>
+          <p>{t('upTo')} {formatCurrency(250000, formData.currency)}</p>
+          <p className="rate">{t('aprFrom')} 5.99%</p>
         </div>
       </div>
 
       <form className="loan-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="loanType">Loan Type</label>
+          <label htmlFor="loanType">{t('loanType')}</label>
           <select
             id="loanType"
             name="loanType"
@@ -93,15 +95,15 @@ function LoanApplication({ onBack }) {
             onChange={handleChange}
             required
           >
-            <option value="personal">Personal Loan</option>
-            <option value="auto">Auto Loan</option>
-            <option value="home">Home Equity Loan</option>
-            <option value="business">Business Loan</option>
+            <option value="personal">{t('personalLoanOption')}</option>
+            <option value="auto">{t('autoLoanOption')}</option>
+            <option value="home">{t('homeEquityLoan')}</option>
+            <option value="business">{t('businessLoan')}</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label htmlFor="currency">Currency</label>
+          <label htmlFor="currency">{t('currency')}</label>
           <select
             id="currency"
             name="currency"
@@ -118,7 +120,7 @@ function LoanApplication({ onBack }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="amount">Loan Amount</label>
+          <label htmlFor="amount">{t('loanAmount')}</label>
           <div className="slider-group">
             <input
               type="range"
@@ -140,11 +142,11 @@ function LoanApplication({ onBack }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="purpose">Loan Purpose</label>
+          <label htmlFor="purpose">{t('loanPurpose')}</label>
           <textarea
             id="purpose"
             name="purpose"
-            placeholder="Describe the purpose of this loan"
+            placeholder={t('loanPurposeDesc')}
             value={formData.purpose}
             onChange={handleChange}
             rows="4"
@@ -153,7 +155,7 @@ function LoanApplication({ onBack }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="term">Loan Term</label>
+          <label htmlFor="term">{t('loanTerm')}</label>
           <div className="slider-group">
             <input
               type="range"
@@ -175,12 +177,12 @@ function LoanApplication({ onBack }) {
         </div>
 
         <div className="payment-estimate">
-          <span>Estimated Monthly Payment</span>
+          <span>{t('estimatedMonthlyPayment')}</span>
           <span className="estimate-value">${calculateMonthlyPayment()}</span>
         </div>
 
         <div className="form-group">
-          <label htmlFor="employmentStatus">Employment Status</label>
+          <label htmlFor="employmentStatus">{t('employmentStatus')}</label>
           <select
             id="employmentStatus"
             name="employmentStatus"
@@ -188,28 +190,28 @@ function LoanApplication({ onBack }) {
             onChange={handleChange}
             required
           >
-            <option value="employed">Employed Full-Time</option>
-            <option value="parttime">Employed Part-Time</option>
-            <option value="selfemployed">Self-Employed</option>
-            <option value="retired">Retired</option>
-            <option value="unemployed">Unemployed</option>
+            <option value="employed">{t('employedFullTime')}</option>
+            <option value="parttime">{t('employedPartTime')}</option>
+            <option value="selfemployed">{t('selfEmployed')}</option>
+            <option value="retired">{t('retired')}</option>
+            <option value="unemployed">{t('unemployed')}</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label htmlFor="annualIncome">Annual Income</label>
+          <label htmlFor="annualIncome">{t('annualIncome')}</label>
           <input
             type="number"
             id="annualIncome"
             name="annualIncome"
-            placeholder="Enter annual income"
+            placeholder={t('enterAnnualIncome')}
             value={formData.annualIncome}
             onChange={handleChange}
             required
           />
         </div>
 
-        <button type="submit" className="submit-btn">Submit Application</button>
+        <button type="submit" className="submit-btn">{t('submitApplication')}</button>
       </form>
     </div>
   )

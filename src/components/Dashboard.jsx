@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import './Dashboard.css'
 import { formatCurrency } from '../utils/currency'
+import { useTranslation } from '../i18n'
 
 function Dashboard({ accounts, onAccountClick, onTransferClick }) {
+  const { t, locale } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [visibleCount, setVisibleCount] = useState(6)
 
@@ -68,12 +70,12 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h2>Welcome back, John!</h2>
-        <p className="date">Today is {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        <h2>{t('welcomeBack', { name: 'John' })}</h2>
+        <p className="date">{t('todayIs')} {new Date().toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
       </header>
 
       <div className="total-balance-card">
-        <div className="total-balance-label">Total Balance</div>
+        <div className="total-balance-label">{t('totalBalance')}</div>
         {isMultiCurrency ? (
           <div className="total-balance-amount">
             {currencies.map((currency, index) => (
@@ -91,7 +93,7 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
       </div>
 
       <section className="accounts-section">
-        <h3>Your Accounts</h3>
+        <h3>{t('yourAccounts')}</h3>
         <div className="accounts-grid">
           {accounts.map(account => (
             <div
@@ -99,67 +101,67 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
               className="account-card"
               onClick={() => onAccountClick(account)}
             >
-              <div className="account-type">{account.type}</div>
+              <div className="account-type">{t(account.type.toLowerCase())}</div>
               <div className="account-number">{account.accountNumber}</div>
               <div className="account-balance">
                 {formatCurrency(account.balance, account.currency)}
               </div>
-              <div className="account-available">Available: {formatCurrency(account.available, account.currency)}</div>
+              <div className="account-available">{t('available')}: {formatCurrency(account.available, account.currency)}</div>
             </div>
           ))}
         </div>
       </section>
 
       <section className="quick-actions">
-        <h3>Quick Actions</h3>
+        <h3>{t('quickActions')}</h3>
         <div className="actions-grid">
           <button className="action-btn" onClick={onTransferClick}>
-            <span>Transfer Money</span>
+            <span>{t('transferMoney')}</span>
           </button>
           <button className="action-btn">
-            <span>Pay Bills</span>
+            <span>{t('payBills')}</span>
           </button>
           <button className="action-btn">
-            <span>Mobile Deposit</span>
+            <span>{t('mobileDeposit')}</span>
           </button>
           <button className="action-btn">
-            <span>View Statements</span>
+            <span>{t('viewStatements')}</span>
           </button>
         </div>
       </section>
 
       <section className="transactions-section">
-        <h3>Recent Transactions</h3>
+        <h3>{t('recentTransactions')}</h3>
         <div className="transaction-filters">
           <button
             className={`filter-btn ${transactionFilter === 'all' ? 'active' : ''}`}
             onClick={() => setTransactionFilter('all')}
           >
-            All
+            {t('all')}
           </button>
           <button
             className={`filter-btn ${transactionFilter === '7days' ? 'active' : ''}`}
             onClick={() => setTransactionFilter('7days')}
           >
-            Last 7 Days
+            {t('last7Days')}
           </button>
           <button
             className={`filter-btn ${transactionFilter === '30days' ? 'active' : ''}`}
             onClick={() => setTransactionFilter('30days')}
           >
-            Last 30 Days
+            {t('last30Days')}
           </button>
           <button
             className={`filter-btn ${transactionFilter === 'thisMonth' ? 'active' : ''}`}
             onClick={() => setTransactionFilter('thisMonth')}
           >
-            This Month
+            {t('thisMonth')}
           </button>
         </div>
         <div className="search-bar">
           <input
             type="text"
-            placeholder="Search transactions..."
+            placeholder={t('searchTransactions')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -175,7 +177,7 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
               : timeFiltered
 
             if (finalFiltered.length === 0) {
-              return <div className="no-transactions">No transactions found</div>
+              return <div className="no-transactions">{t('noTransactionsFound')}</div>
             }
 
             // Apply load-more slicing when search is not active
