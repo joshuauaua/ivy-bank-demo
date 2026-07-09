@@ -8,6 +8,7 @@ import UserSettings from './components/UserSettings'
 import { ThemeProvider } from './context/ThemeContext'
 import TransferFunds from './components/TransferFunds'
 import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 function App() {
   const [activeView, setActiveView] = useState('dashboard')
@@ -82,6 +83,7 @@ function App() {
         <main className="main-content">
           {renderView()}
         </main>
+        <Footer />
       </div>
     </ThemeProvider>
   )
