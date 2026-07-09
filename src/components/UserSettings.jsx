@@ -2,8 +2,12 @@ import { useState } from 'react'
 import './UserSettings.css'
 import { useTheme } from '../context/ThemeContext'
 import { SUPPORTED_CURRENCIES } from '../utils/currency'
+import { useTranslation } from '../i18n'
+import { useLanguage } from '../i18n/LanguageContext'
 
 function UserSettings({ onBack }) {
+  const { t } = useTranslation()
+  const { language, setLanguage } = useLanguage()
   const { theme, toggleTheme } = useTheme()
   const [activeTab, setActiveTab] = useState('profile')
   const [profileData, setProfileData] = useState({
@@ -70,12 +74,12 @@ function UserSettings({ onBack }) {
   return (
     <div className="user-settings">
       <button className="back-btn" onClick={onBack}>
-        ← Back to Dashboard
+        ← {t('backToDashboard')}
       </button>
 
       <div className="settings-header">
-        <h2>Account Settings</h2>
-        <p>Manage your account information and preferences</p>
+        <h2>{t('accountSettings')}</h2>
+        <p>{t('manageAccountInfo')}</p>
       </div>
 
       <div className="settings-tabs">
@@ -83,35 +87,35 @@ function UserSettings({ onBack }) {
           className={`tab ${activeTab === 'profile' ? 'active' : ''}`}
           onClick={() => setActiveTab('profile')}
         >
-          Profile
+          {t('profile')}
         </button>
         <button
           className={`tab ${activeTab === 'security' ? 'active' : ''}`}
           onClick={() => setActiveTab('security')}
         >
-          Security
+          {t('security')}
         </button>
         <button
           className={`tab ${activeTab === 'notifications' ? 'active' : ''}`}
           onClick={() => setActiveTab('notifications')}
         >
-          Notifications
+          {t('notifications')}
         </button>
         <button
           className={`tab ${activeTab === 'appearance' ? 'active' : ''}`}
           onClick={() => setActiveTab('appearance')}
         >
-          Appearance
+          {t('appearance')}
         </button>
       </div>
 
       <div className="settings-content">
         {activeTab === 'profile' && (
           <form className="settings-form" onSubmit={handleProfileSubmit}>
-            <h3>Personal Information</h3>
+            <h3>{t('personalInformation')}</h3>
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="firstName">{t('firstName')}</label>
                 <input
                   type="text"
                   id="firstName"
@@ -122,7 +126,7 @@ function UserSettings({ onBack }) {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="lastName">Last Name</label>
+                <label htmlFor="lastName">{t('lastName')}</label>
                 <input
                   type="text"
                   id="lastName"
@@ -135,7 +139,7 @@ function UserSettings({ onBack }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email">{t('emailAddress')}</label>
               <input
                 type="email"
                 id="email"
@@ -147,7 +151,7 @@ function UserSettings({ onBack }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="phone">Phone Number</label>
+              <label htmlFor="phone">{t('phoneNumber')}</label>
               <input
                 type="tel"
                 id="phone"
@@ -159,7 +163,7 @@ function UserSettings({ onBack }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="preferredCurrency">Preferred Currency</label>
+              <label htmlFor="preferredCurrency">{t('preferredCurrency')}</label>
               <select
                 id="preferredCurrency"
                 name="preferredCurrency"
@@ -175,9 +179,21 @@ function UserSettings({ onBack }) {
               </select>
             </div>
 
-            <h3>Address</h3>
             <div className="form-group">
-              <label htmlFor="address">Street Address</label>
+              <label htmlFor="language">{t('language')}</label>
+              <select
+                id="language"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                <option value="en">English</option>
+                <option value="sv">Svenska</option>
+              </select>
+            </div>
+
+            <h3>{t('address')}</h3>
+            <div className="form-group">
+              <label htmlFor="address">{t('streetAddress')}</label>
               <input
                 type="text"
                 id="address"
@@ -190,7 +206,7 @@ function UserSettings({ onBack }) {
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="city">City</label>
+                <label htmlFor="city">{t('city')}</label>
                 <input
                   type="text"
                   id="city"
@@ -201,7 +217,7 @@ function UserSettings({ onBack }) {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="state">State</label>
+                <label htmlFor="state">{t('state')}</label>
                 <input
                   type="text"
                   id="state"
@@ -212,7 +228,7 @@ function UserSettings({ onBack }) {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="zipCode">ZIP Code</label>
+                <label htmlFor="zipCode">{t('zipCode')}</label>
                 <input
                   type="text"
                   id="zipCode"
@@ -224,15 +240,15 @@ function UserSettings({ onBack }) {
               </div>
             </div>
 
-            <button type="submit" className="submit-btn">Save Changes</button>
+            <button type="submit" className="submit-btn">{t('saveChanges')}</button>
           </form>
         )}
 
         {activeTab === 'security' && (
           <form className="settings-form" onSubmit={handleSecuritySubmit}>
-            <h3>Change Password</h3>
+            <h3>{t('changePassword')}</h3>
             <div className="form-group">
-              <label htmlFor="currentPassword">Current Password</label>
+              <label htmlFor="currentPassword">{t('currentPassword')}</label>
               <input
                 type="password"
                 id="currentPassword"
@@ -244,7 +260,7 @@ function UserSettings({ onBack }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="newPassword">New Password</label>
+              <label htmlFor="newPassword">{t('newPassword')}</label>
               <input
                 type="password"
                 id="newPassword"
@@ -256,7 +272,7 @@ function UserSettings({ onBack }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm New Password</label>
+              <label htmlFor="confirmPassword">{t('confirmNewPassword')}</label>
               <input
                 type="password"
                 id="confirmPassword"
@@ -267,19 +283,19 @@ function UserSettings({ onBack }) {
               />
             </div>
 
-            <button type="submit" className="submit-btn">Update Password</button>
+            <button type="submit" className="submit-btn">{t('updatePassword')}</button>
 
             <div className="security-info">
-              <h3>Two-Factor Authentication</h3>
-              <p>Add an extra layer of security to your account</p>
-              <button type="button" className="secondary-btn">Enable 2FA</button>
+              <h3>{t('twoFactorAuth')}</h3>
+              <p>{t('addSecurityLayer')}</p>
+              <button type="button" className="secondary-btn">{t('enable2FA')}</button>
             </div>
           </form>
         )}
 
         {activeTab === 'notifications' && (
           <form className="settings-form" onSubmit={handleNotificationsSubmit}>
-            <h3>Notification Preferences</h3>
+            <h3>{t('notificationPreferences')}</h3>
 
             <div className="checkbox-group">
               <label>
@@ -289,9 +305,9 @@ function UserSettings({ onBack }) {
                   checked={notifications.emailAlerts}
                   onChange={handleNotificationChange}
                 />
-                <span>Email Alerts</span>
+                <span>{t('emailAlerts')}</span>
               </label>
-              <p className="checkbox-description">Receive important account updates via email</p>
+              <p className="checkbox-description">{t('emailAlertsDesc')}</p>
             </div>
 
             <div className="checkbox-group">
@@ -302,9 +318,9 @@ function UserSettings({ onBack }) {
                   checked={notifications.smsAlerts}
                   onChange={handleNotificationChange}
                 />
-                <span>SMS Alerts</span>
+                <span>{t('smsAlerts')}</span>
               </label>
-              <p className="checkbox-description">Get text messages for urgent notifications</p>
+              <p className="checkbox-description">{t('smsAlertsDesc')}</p>
             </div>
 
             <div className="checkbox-group">
@@ -315,9 +331,9 @@ function UserSettings({ onBack }) {
                   checked={notifications.transactionNotifications}
                   onChange={handleNotificationChange}
                 />
-                <span>Transaction Notifications</span>
+                <span>{t('transactionNotifications')}</span>
               </label>
-              <p className="checkbox-description">Be notified of all transactions on your accounts</p>
+              <p className="checkbox-description">{t('transactionNotificationsDesc')}</p>
             </div>
 
             <div className="checkbox-group">
@@ -328,9 +344,9 @@ function UserSettings({ onBack }) {
                   checked={notifications.loginAlerts}
                   onChange={handleNotificationChange}
                 />
-                <span>Login Alerts</span>
+                <span>{t('loginAlerts')}</span>
               </label>
-              <p className="checkbox-description">Receive alerts when someone logs into your account</p>
+              <p className="checkbox-description">{t('loginAlertsDesc')}</p>
             </div>
 
             <div className="checkbox-group">
@@ -341,22 +357,22 @@ function UserSettings({ onBack }) {
                   checked={notifications.monthlyStatements}
                   onChange={handleNotificationChange}
                 />
-                <span>Monthly Statements</span>
+                <span>{t('monthlyStatements')}</span>
               </label>
-              <p className="checkbox-description">Receive monthly account statements via email</p>
+              <p className="checkbox-description">{t('monthlyStatementsDesc')}</p>
             </div>
 
-            <button type="submit" className="submit-btn">Save Preferences</button>
+            <button type="submit" className="submit-btn">{t('savePreferences')}</button>
           </form>
         )}
 
         {activeTab === 'appearance' && (
           <div className="settings-form">
-            <h3>Theme</h3>
+            <h3>{t('theme')}</h3>
             <div className="theme-setting">
               <div className="theme-info">
-                <span className="theme-label">Dark Mode</span>
-                <p className="theme-description">Switch between light and dark appearance</p>
+                <span className="theme-label">{t('darkMode')}</span>
+                <p className="theme-description">{t('darkModeDesc')}</p>
               </div>
               <label className="theme-toggle">
                 <input

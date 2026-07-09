@@ -1,7 +1,9 @@
 import './AccountDetails.css'
 import { formatCurrency } from '../utils/currency'
+import { useTranslation } from '../i18n'
 
 function AccountDetails({ account, onBack, onTransferClick }) {
+  const { t } = useTranslation()
   const recentTransactions = [
     { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, balance: 12543.67 },
     { id: 2, date: '2026-07-05', description: 'Direct Deposit - Salary', amount: 3500.00, balance: 12633.66 },
@@ -16,23 +18,23 @@ function AccountDetails({ account, onBack, onTransferClick }) {
   return (
     <div className="account-details">
       <button className="back-btn" onClick={onBack}>
-        ← Back to Dashboard
+        ← {t('backToDashboard')}
       </button>
 
       <div className="account-header">
-        <h2>{account.type} Account</h2>
-        <p className="account-number-full">Account Number: {account.accountNumber}</p>
+        <h2>{t(account.type.toLowerCase())} {t('account')}</h2>
+        <p className="account-number-full">{t('accountNumber')}: {account.accountNumber}</p>
       </div>
 
       <div className="account-summary">
         <div className="summary-card">
-          <div className="summary-label">Current Balance</div>
+          <div className="summary-label">{t('currentBalance')}</div>
           <div className="summary-amount">
             {formatCurrency(account.balance, account.currency)}
           </div>
         </div>
         <div className="summary-card">
-          <div className="summary-label">Available Balance</div>
+          <div className="summary-label">{t('availableBalance')}</div>
           <div className="summary-amount">
             {formatCurrency(account.available, account.currency)}
           </div>
@@ -40,19 +42,19 @@ function AccountDetails({ account, onBack, onTransferClick }) {
       </div>
 
       <div className="account-actions">
-        <button className="action-btn-primary" onClick={onTransferClick}>Transfer</button>
-        <button className="action-btn-secondary">Download Statement</button>
-        <button className="action-btn-secondary">Order Checks</button>
+        <button className="action-btn-primary" onClick={onTransferClick}>{t('transfer')}</button>
+        <button className="action-btn-secondary">{t('downloadStatement')}</button>
+        <button className="action-btn-secondary">{t('orderChecks')}</button>
       </div>
 
       <section className="account-transactions">
-        <h3>Transaction History</h3>
+        <h3>{t('transactionHistory')}</h3>
         <div className="transactions-table">
           <div className="table-header">
-            <div className="col-date">Date</div>
-            <div className="col-description">Description</div>
-            <div className="col-amount">Amount</div>
-            <div className="col-balance">Balance</div>
+            <div className="col-date">{t('date')}</div>
+            <div className="col-description">{t('description')}</div>
+            <div className="col-amount">{t('amount')}</div>
+            <div className="col-balance">{t('balance')}</div>
           </div>
           {recentTransactions.map(transaction => (
             <div key={transaction.id} className="table-row">

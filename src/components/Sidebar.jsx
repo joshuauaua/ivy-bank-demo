@@ -1,6 +1,8 @@
 import './Sidebar.css'
+import { useTranslation } from '../i18n'
 
 function Sidebar({ activeView, setActiveView }) {
+  const { t } = useTranslation()
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
@@ -23,32 +25,32 @@ function Sidebar({ activeView, setActiveView }) {
           className={`nav-item ${activeView === 'dashboard' ? 'active' : ''}`}
           onClick={() => setActiveView('dashboard')}
         >
-          Dashboard
+          {t('dashboard')}
         </button>
         <button
           className={`nav-item ${activeView === 'transfer' ? 'active' : ''}`}
           onClick={() => setActiveView('transfer')}
         >
           <span className="nav-icon">💸</span>
-          Transfers
+          {t('transfers')}
         </button>
         <button
           className={`nav-item ${activeView === 'loan' ? 'active' : ''}`}
           onClick={() => setActiveView('loan')}
         >
-          Apply for Loan
+          {t('applyForLoan')}
         </button>
         <button
           className={`nav-item ${activeView === 'settings' ? 'active' : ''}`}
           onClick={() => setActiveView('settings')}
         >
-          Settings
+          {t('settings')}
         </button>
       </nav>
 
       <div className="sidebar-footer">
         <button className="logout-btn">
-          Logout
+          {t('logout')}
         </button>
       </div>
     </aside>

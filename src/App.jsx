@@ -6,6 +6,7 @@ import AccountDetails from './components/AccountDetails'
 import LoanApplication from './components/LoanApplication'
 import UserSettings from './components/UserSettings'
 import { ThemeProvider } from './context/ThemeContext'
+import { LanguageProvider } from './i18n/LanguageContext'
 import TransferFunds from './components/TransferFunds'
 
 function App() {
@@ -69,12 +70,14 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div className="app">
-        <Sidebar activeView={activeView} setActiveView={setActiveView} />
-        <main className="main-content">
-          {renderView()}
-        </main>
-      </div>
+      <LanguageProvider>
+        <div className="app">
+          <Sidebar activeView={activeView} setActiveView={setActiveView} />
+          <main className="main-content">
+            {renderView()}
+          </main>
+        </div>
+      </LanguageProvider>
     </ThemeProvider>
   )
 }
