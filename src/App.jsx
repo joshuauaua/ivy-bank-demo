@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Dashboard from './components/Dashboard'
-import Sidebar from './components/Sidebar'
+import Navbar from './components/Navbar'
 import AccountDetails from './components/AccountDetails'
 import LoanApplication from './components/LoanApplication'
 import UserSettings from './components/UserSettings'
@@ -75,7 +75,7 @@ function App() {
   return (
     <ThemeProvider>
       <div className="app">
-        <Sidebar activeView={activeView} setActiveView={setActiveView} onLogoClick={navigateHome} />
+        <Navbar activeView={activeView} setActiveView={setActiveView} onLogoClick={navigateHome} />
         <main className="main-content">
           {renderView()}
         </main>
