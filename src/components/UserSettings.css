@@ -8,26 +8,26 @@
 
 .settings-header h2 {
   font-size: 2rem;
-  color: #1a1f36;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .settings-header p {
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
 .settings-tabs {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 2rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .tab {
   padding: 0.875rem 1.5rem;
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -37,27 +37,27 @@
 }
 
 .tab:hover {
-  color: #1a1f36;
+  color: var(--text-primary);
 }
 
 .tab.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 .settings-content {
-  background: white;
+  background: var(--bg-secondary);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--shadow);
 }
 
 .settings-form h3 {
   font-size: 1.3rem;
-  color: #1a1f36;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .form-row {
@@ -73,7 +73,7 @@
 .form-group label {
   display: block;
   font-weight: 600;
-  color: #1a1f36;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
 }
@@ -83,22 +83,24 @@
 .form-group textarea {
   width: 100%;
   padding: 0.875rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
   transition: border-color 0.2s;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--accent);
 }
 
 .submit-btn {
-  background: #667eea;
+  background: var(--accent);
   color: white;
   border: none;
   padding: 0.875rem 2rem;
@@ -110,13 +112,13 @@
 }
 
 .submit-btn:hover {
-  background: #5568d3;
+  background: var(--accent-hover);
 }
 
 .secondary-btn {
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  background: var(--bg-secondary);
+  color: var(--accent);
+  border: 2px solid var(--accent);
   padding: 0.875rem 2rem;
   border-radius: 8px;
   font-size: 1rem;
@@ -126,13 +128,13 @@
 }
 
 .secondary-btn:hover {
-  background: #f3f4f6;
+  background: var(--bg-primary);
 }
 
 .security-info {
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--border-color);
 }
 
 .security-info h3 {
@@ -143,7 +145,7 @@
 }
 
 .security-info p {
-  color: #6b7280;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
 }
 
@@ -168,12 +170,12 @@
 
 .checkbox-group span {
   font-weight: 600;
-  color: #1a1f36;
+  color: var(--text-primary);
   font-size: 1rem;
 }
 
 .checkbox-description {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin-top: 0.25rem;
   margin-left: 1.95rem;
@@ -191,12 +193,12 @@
 
   .tab {
     text-align: left;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border-color);
     margin-bottom: 0;
   }
 
   .tab.active {
-    background-color: #f3f4f6;
+    background-color: var(--bg-primary);
   }
 
   .settings-content {
@@ -206,4 +208,74 @@
   .form-row {
     grid-template-columns: 1fr;
   }
+}
+
+.theme-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+}
+
+.theme-info {
+  flex: 1;
+}
+
+.theme-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.theme-description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.theme-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.theme-toggle input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border-color);
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.theme-toggle input:checked + .toggle-slider {
+  background-color: var(--accent);
+}
+
+.theme-toggle input:checked + .toggle-slider:before {
+  transform: translateX(20px);
 }

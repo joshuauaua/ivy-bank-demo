@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import './UserSettings.css'
+import { useTheme } from '../context/ThemeContext'
+import { SUPPORTED_CURRENCIES } from '../utils/currency'
 
 function UserSettings({ onBack }) {
+  const { theme, toggleTheme } = useTheme()
   const [activeTab, setActiveTab] = useState('profile')
   const [profileData, setProfileData] = useState({
     firstName: 'John',
@@ -11,7 +14,8 @@ function UserSettings({ onBack }) {
     address: '123 Main Street',
     city: 'New York',
     state: 'NY',
-    zipCode: '10001'
+    zipCode: '10001',
+    preferredCurrency: 'USD'
   })
 
   const [securityData, setSecurityData] = useState({
@@ -93,6 +97,12 @@ function UserSettings({ onBack }) {
         >
           Notifications
         </button>
+        <button
+          className={`tab ${activeTab === 'appearance' ? 'active' : ''}`}
+          onClick={() => setActiveTab('appearance')}
+        >
+          Appearance
+        </button>
       </div>
 
       <div className="settings-content">
@@ -146,6 +156,23 @@ function UserSettings({ onBack }) {
                 onChange={handleProfileChange}
                 required
               />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="preferredCurrency">Preferred Currency</label>
+              <select
+                id="preferredCurrency"
+                name="preferredCurrency"
+                value={profileData.preferredCurrency}
+                onChange={handleProfileChange}
+                required
+              >
+                {Object.values(SUPPORTED_CURRENCIES).map(currency => (
+                  <option key={currency.code} value={currency.code}>
+                    {currency.name} ({currency.symbol})
+                  </option>
+                ))}
+              </select>
             </div>
 
             <h3>Address</h3>
@@ -321,6 +348,26 @@ function UserSettings({ onBack }) {
 
             <button type="submit" className="submit-btn">Save Preferences</button>
           </form>
+        )}
+
+        {activeTab === 'appearance' && (
+          <div className="settings-form">
+            <h3>Theme</h3>
+            <div className="theme-setting">
+              <div className="theme-info">
+                <span className="theme-label">Dark Mode</span>
+                <p className="theme-description">Switch between light and dark appearance</p>
+              </div>
+              <label className="theme-toggle">
+                <input
+                  type="checkbox"
+                  checked={theme === 'dark'}
+                  onChange={toggleTheme}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
         )}
       </div>
     </div>

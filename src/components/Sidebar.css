@@ -19,6 +19,20 @@
   color: white;
 }
 
+.logo-button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.logo-button:hover {
+  opacity: 0.8;
+}
+
 .user-info {
   display: flex;
   align-items: center;
@@ -81,10 +95,6 @@
   background-color: rgba(102, 126, 234, 0.2);
   color: white;
   border-left: 3px solid #667eea;
-}
-
-.nav-icon {
-  font-size: 1.25rem;
 }
 
 .sidebar-footer {
