@@ -4,6 +4,7 @@ import { formatCurrency } from '../utils/currency'
 
 function Dashboard({ accounts, onAccountClick, onTransferClick }) {
   const [searchQuery, setSearchQuery] = useState('')
+  const [visibleCount, setVisibleCount] = useState(6)
 
   const [transactionFilter, setTransactionFilter] = useState('all')
 
@@ -14,15 +15,18 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
     { id: 4, date: '2026-07-03', description: 'Transfer to Savings', amount: -500.00, type: 'transfer', currency: 'USD' },
     { id: 5, date: '2026-07-02', description: 'Grocery Store', amount: -156.78, type: 'debit', currency: 'USD' },
     { id: 6, date: '2026-07-01', description: 'Netflix Subscription', amount: -15.99, type: 'debit', currency: 'USD' },
-    { id: 7, date: '2026-06-28', description: 'Gas Station', amount: -45.20, type: 'debit', currency: 'USD' },
-    { id: 8, date: '2026-06-25', description: 'Restaurant', amount: -78.50, type: 'debit', currency: 'USD' },
-    { id: 9, date: '2026-06-22', description: 'Online Shopping', amount: -234.99, type: 'debit', currency: 'USD' },
-    { id: 10, date: '2026-06-20', description: 'Direct Deposit - Salary', amount: 3500.00, type: 'credit', currency: 'USD' },
-    { id: 11, date: '2026-06-18', description: 'Utility Bill', amount: -125.00, type: 'debit', currency: 'USD' },
-    { id: 12, date: '2026-06-15', description: 'Coffee Shop', amount: -8.75, type: 'debit', currency: 'USD' },
-    { id: 13, date: '2026-06-10', description: 'Transfer to Savings', amount: -500.00, type: 'transfer', currency: 'USD' },
-    { id: 14, date: '2026-06-08', description: 'Pharmacy', amount: -32.50, type: 'debit', currency: 'USD' },
-    { id: 15, date: '2026-06-05', description: 'Direct Deposit - Salary', amount: 3500.00, type: 'credit', currency: 'USD' },
+    { id: 7, date: '2026-06-30', description: 'Electric Bill Payment', amount: -125.50, type: 'debit', currency: 'USD' },
+    { id: 8, date: '2026-06-29', description: 'Restaurant Dinner', amount: -78.25, type: 'debit', currency: 'USD' },
+    { id: 9, date: '2026-06-28', description: 'ATM Withdrawal', amount: -100.00, type: 'debit', currency: 'USD' },
+    { id: 10, date: '2026-06-27', description: 'Spotify Subscription', amount: -9.99, type: 'debit', currency: 'USD' },
+    { id: 11, date: '2026-06-26', description: 'Gas Station', amount: -55.00, type: 'debit', currency: 'USD' },
+    { id: 12, date: '2026-06-25', description: 'Pharmacy', amount: -34.50, type: 'debit', currency: 'USD' },
+    { id: 13, date: '2026-06-24', description: 'Gym Membership', amount: -45.00, type: 'debit', currency: 'USD' },
+    { id: 14, date: '2026-06-23', description: 'Online Course Payment', amount: -199.99, type: 'debit', currency: 'USD' },
+    { id: 15, date: '2026-06-22', description: 'Freelance Payment Received', amount: 850.00, type: 'credit', currency: 'USD' },
+    { id: 16, date: '2026-06-21', description: 'Water Bill', amount: -42.30, type: 'debit', currency: 'USD' },
+    { id: 17, date: '2026-06-20', description: 'Coffee Shop', amount: -8.75, type: 'debit', currency: 'USD' },
+    { id: 18, date: '2026-06-19', description: 'Movie Tickets', amount: -28.00, type: 'debit', currency: 'USD' },
   ])
 
   // Group balances by currency for multi-currency display
@@ -174,7 +178,12 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
               return <div className="no-transactions">No transactions found</div>
             }
 
-            return finalFiltered.map(transaction => (
+            // Apply load-more slicing when search is not active
+            const displayedTransactions = searchQuery 
+              ? finalFiltered 
+              : finalFiltered.slice(0, visibleCount)
+
+            return displayedTransactions.map(transaction => (
               <div key={transaction.id} className="transaction-item">
                 <div className="transaction-details">
                   <div className="transaction-description">{transaction.description}</div>
@@ -187,6 +196,14 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
             ))
           })()}
         </div>
+        {!searchQuery && transactionFilter === 'all' && visibleCount < transactions.length && (
+          <button
+            className="load-more-btn"
+            onClick={() => setVisibleCount(prev => Math.min(prev + 5, transactions.length))}
+          >
+            Load More
+          </button>
+        )}
       </section>
     </div>
   )
