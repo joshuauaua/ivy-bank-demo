@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import './TransferFunds.css'
 import { formatCurrency } from '../utils/currency'
-import { useTranslation } from '../i18n'
 
 function TransferFunds({ accounts, setAccounts, onBack }) {
-  const { locale } = useTranslation()
   const [fromAccountId, setFromAccountId] = useState('')
   const [toAccountId, setToAccountId] = useState('')
   const [amount, setAmount] = useState('')

@@ -11,7 +11,7 @@ const LOAN_CONFIG = {
 }
 
 function LoanApplication({ onBack }) {
-  const { t, locale } = useTranslation()
+  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     loanType: 'personal',
     amount: 25000,
