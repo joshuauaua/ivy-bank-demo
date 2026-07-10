@@ -1,19 +1,11 @@
 import './AccountDetails.css'
 import { formatCurrency } from '../utils/currency'
 import { useTranslation } from '../i18n'
+import { accountDetailsTransactions } from '../data/transactions'
 
 function AccountDetails({ account, onBack, onTransferClick }) {
   const { t } = useTranslation()
-  const recentTransactions = [
-    { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, balance: 12543.67 },
-    { id: 2, date: '2026-07-05', description: 'Direct Deposit - Salary', amount: 3500.00, balance: 12633.66 },
-    { id: 3, date: '2026-07-04', description: 'Starbucks', amount: -12.45, balance: 9133.66 },
-    { id: 4, date: '2026-07-03', description: 'ATM Withdrawal', amount: -100.00, balance: 9146.11 },
-    { id: 5, date: '2026-07-02', description: 'Grocery Store', amount: -156.78, balance: 9246.11 },
-    { id: 6, date: '2026-07-01', description: 'Netflix Subscription', amount: -15.99, balance: 9402.89 },
-    { id: 7, date: '2026-06-30', description: 'Restaurant', amount: -65.50, balance: 9418.88 },
-    { id: 8, date: '2026-06-29', description: 'Gas Station', amount: -45.00, balance: 9484.38 },
-  ]
+  const recentTransactions = accountDetailsTransactions
 
   const downloadCSV = () => {
     const headers = 'Date,Description,Amount,Balance\n'

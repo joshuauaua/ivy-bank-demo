@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './Dashboard.css'
 import { formatCurrency } from '../utils/currency'
 import { useTranslation } from '../i18n'
+import { dashboardTransactions } from '../data/transactions'
 
 function Dashboard({ accounts, onAccountClick, onTransferClick }) {
   const { t, locale } = useTranslation()
@@ -10,26 +11,7 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
 
   const [transactionFilter, setTransactionFilter] = useState('all')
 
-  const [transactions] = useState([
-    { id: 1, date: '2026-07-06', description: 'Amazon Purchase', amount: -89.99, type: 'debit', currency: 'USD' },
-    { id: 2, date: '2026-07-05', description: 'Direct Deposit - Salary', amount: 3500.00, type: 'credit', currency: 'USD' },
-    { id: 3, date: '2026-07-04', description: 'Starbucks', amount: -12.45, type: 'debit', currency: 'USD' },
-    { id: 4, date: '2026-07-03', description: 'Transfer to Savings', amount: -500.00, type: 'transfer', currency: 'USD' },
-    { id: 5, date: '2026-07-02', description: 'Grocery Store', amount: -156.78, type: 'debit', currency: 'USD' },
-    { id: 6, date: '2026-07-01', description: 'Netflix Subscription', amount: -15.99, type: 'debit', currency: 'USD' },
-    { id: 7, date: '2026-06-30', description: 'Electric Bill Payment', amount: -125.50, type: 'debit', currency: 'USD' },
-    { id: 8, date: '2026-06-29', description: 'Restaurant Dinner', amount: -78.25, type: 'debit', currency: 'USD' },
-    { id: 9, date: '2026-06-28', description: 'ATM Withdrawal', amount: -100.00, type: 'debit', currency: 'USD' },
-    { id: 10, date: '2026-06-27', description: 'Spotify Subscription', amount: -9.99, type: 'debit', currency: 'USD' },
-    { id: 11, date: '2026-06-26', description: 'Gas Station', amount: -55.00, type: 'debit', currency: 'USD' },
-    { id: 12, date: '2026-06-25', description: 'Pharmacy', amount: -34.50, type: 'debit', currency: 'USD' },
-    { id: 13, date: '2026-06-24', description: 'Gym Membership', amount: -45.00, type: 'debit', currency: 'USD' },
-    { id: 14, date: '2026-06-23', description: 'Online Course Payment', amount: -199.99, type: 'debit', currency: 'USD' },
-    { id: 15, date: '2026-06-22', description: 'Freelance Payment Received', amount: 850.00, type: 'credit', currency: 'USD' },
-    { id: 16, date: '2026-06-21', description: 'Water Bill', amount: -42.30, type: 'debit', currency: 'USD' },
-    { id: 17, date: '2026-06-20', description: 'Coffee Shop', amount: -8.75, type: 'debit', currency: 'USD' },
-    { id: 18, date: '2026-06-19', description: 'Movie Tickets', amount: -28.00, type: 'debit', currency: 'USD' },
-  ])
+  const [transactions] = useState(dashboardTransactions)
 
   // Group balances by currency for multi-currency display
   const balancesByCurrency = accounts.reduce((acc, account) => {
