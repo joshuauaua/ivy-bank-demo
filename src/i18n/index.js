@@ -1,10 +1,20 @@
 import { useLanguage } from './LanguageContext'
 import en from './en.json'
 import sv from './sv.json'
+import no from './no.json'
+import da from './da.json'
+import fi from './fi.json'
+import de from './de.json'
+import fr from './fr.json'
 
 export const translations = {
   en,
-  sv
+  sv,
+  no,
+  da,
+  fi,
+  de,
+  fr
 }
 
 export function useTranslation() {
@@ -20,7 +30,16 @@ export function useTranslation() {
   }
 
   // Return locale for date formatting
-  const locale = language === 'sv' ? 'sv-SE' : 'en-US'
+  const localeMap = {
+    en: 'en-US',
+    sv: 'sv-SE',
+    no: 'nb-NO',
+    da: 'da-DK',
+    fi: 'fi-FI',
+    de: 'de-DE',
+    fr: 'fr-FR'
+  }
+  const locale = localeMap[language] || 'en-US'
 
   return { t, language, locale }
 }
