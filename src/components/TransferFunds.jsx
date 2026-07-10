@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import './TransferFunds.css'
+import { formatCurrency } from '../utils/currency'
+import { useTranslation } from '../i18n'
 
 function TransferFunds({ accounts, setAccounts, onBack }) {
+  const { locale } = useTranslation()
   const [fromAccountId, setFromAccountId] = useState('')
   const [toAccountId, setToAccountId] = useState('')
   const [amount, setAmount] = useState('')
@@ -33,7 +36,7 @@ function TransferFunds({ accounts, setAccounts, onBack }) {
 
     const fromAccount = accounts.find(acc => acc.id.toString() === fromAccountId)
     if (transferAmount > fromAccount.available) {
-      setError(`Insufficient funds. Available balance: $${fromAccount.available.toFixed(2)}`)
+      setError(`Insufficient funds. Available balance: ${formatCurrency(fromAccount.available, 'USD')}`)
       return
     }
 
@@ -86,7 +89,7 @@ function TransferFunds({ accounts, setAccounts, onBack }) {
           <div className="success-icon">✓</div>
           <h3>Transfer Successful!</h3>
           <div className="transfer-summary">
-            <p><strong>${transferDetails.amount.toFixed(2)}</strong> transferred</p>
+            <p><strong>{formatCurrency(transferDetails.amount, 'USD')}</strong> transferred</p>
             <p>From: {transferDetails.from.type} ({transferDetails.from.accountNumber})</p>
             <p>To: {transferDetails.to.type} ({transferDetails.to.accountNumber})</p>
             <p className="transfer-date">{transferDetails.date}</p>
@@ -107,7 +110,7 @@ function TransferFunds({ accounts, setAccounts, onBack }) {
               <option value="">Select source account</option>
               {accounts.map(account => (
                 <option key={account.id} value={account.id}>
-                  {account.type} ({account.accountNumber}) - Available: ${account.available.toFixed(2)}
+                  {account.type} ({account.accountNumber}) - Available: {formatCurrency(account.available, 'USD')}
                 </option>
               ))}
             </select>

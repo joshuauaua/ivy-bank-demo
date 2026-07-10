@@ -57,3 +57,18 @@ export function formatCurrency(amount, currencyCode = 'USD') {
 export function getCurrencySymbol(currencyCode = 'USD') {
   return SUPPORTED_CURRENCIES[currencyCode]?.symbol || '$'
 }
+
+/**
+ * Format a number with locale-aware thousands and decimal separators
+ * @param {number} value - The number to format
+ * @param {string} locale - BCP 47 language tag (e.g. 'en-US', 'sv-SE')
+ * @param {object} options - Additional Intl.NumberFormat options
+ * @returns {string} Formatted number string
+ */
+export function formatNumber(value, locale = 'en-US', options = {}) {
+  return new Intl.NumberFormat(locale, {
+    minimumFractionDigits: options.minimumFractionDigits ?? 0,
+    maximumFractionDigits: options.maximumFractionDigits ?? 0,
+    ...options
+  }).format(value)
+}

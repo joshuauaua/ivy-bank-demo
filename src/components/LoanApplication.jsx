@@ -11,7 +11,7 @@ const LOAN_CONFIG = {
 }
 
 function LoanApplication({ onBack }) {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const [formData, setFormData] = useState({
     loanType: 'personal',
     amount: 25000,
@@ -46,9 +46,9 @@ function LoanApplication({ onBack }) {
 
     if (P && r && n) {
       const monthlyPayment = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)
-      return monthlyPayment.toFixed(2)
+      return monthlyPayment
     }
-    return '0.00'
+    return 0
   }
 
   const handleSubmit = (e) => {
@@ -134,9 +134,9 @@ function LoanApplication({ onBack }) {
               required
             />
             <div className="slider-labels">
-              <span>${LOAN_CONFIG[formData.loanType].minAmount.toLocaleString()}</span>
-              <span className="slider-value">${formData.amount.toLocaleString()}</span>
-              <span>${LOAN_CONFIG[formData.loanType].maxAmount.toLocaleString()}</span>
+              <span>{formatCurrency(LOAN_CONFIG[formData.loanType].minAmount, formData.currency)}</span>
+              <span className="slider-value">{formatCurrency(formData.amount, formData.currency)}</span>
+              <span>{formatCurrency(LOAN_CONFIG[formData.loanType].maxAmount, formData.currency)}</span>
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@ function LoanApplication({ onBack }) {
 
         <div className="payment-estimate">
           <span>{t('estimatedMonthlyPayment')}</span>
-          <span className="estimate-value">${calculateMonthlyPayment()}</span>
+          <span className="estimate-value">{formatCurrency(calculateMonthlyPayment(), formData.currency)}</span>
         </div>
 
         <div className="form-group">
