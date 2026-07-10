@@ -188,6 +188,11 @@ function UserSettings({ onBack }) {
               >
                 <option value="en">English</option>
                 <option value="sv">Svenska</option>
+                <option value="no">Norsk</option>
+                <option value="da">Dansk</option>
+                <option value="fi">Suomi</option>
+                <option value="de">Deutsch</option>
+                <option value="fr">Français</option>
               </select>
             </div>
 
