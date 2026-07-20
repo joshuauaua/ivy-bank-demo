@@ -83,8 +83,8 @@ function TransferFunds({ accounts, setAccounts, onBack }) {
       </div>
 
       {success && transferDetails && (
-        <div className="success-message">
-          <div className="success-icon">✓</div>
+        <div className="success-message" role="status" aria-live="polite">
+          <div className="success-icon" aria-hidden="true">✓</div>
           <h3>Transfer Successful!</h3>
           <div className="transfer-summary">
             <p><strong>{formatCurrency(transferDetails.amount, 'USD')}</strong> transferred</p>
@@ -114,7 +114,7 @@ function TransferFunds({ accounts, setAccounts, onBack }) {
             </select>
           </div>
 
-          <div className="transfer-arrow">↓</div>
+          <div className="transfer-arrow" aria-hidden="true">↓</div>
 
           <div className="form-group">
             <label htmlFor="to-account">To Account</label>
@@ -136,7 +136,7 @@ function TransferFunds({ accounts, setAccounts, onBack }) {
           <div className="form-group">
             <label htmlFor="amount">Amount</label>
             <div className="amount-input-wrapper">
-              <span className="currency-symbol">$</span>
+              <span className="currency-symbol" aria-hidden="true">$</span>
               <input
                 type="number"
                 id="amount"
@@ -151,7 +151,7 @@ function TransferFunds({ accounts, setAccounts, onBack }) {
           </div>
 
           {error && (
-            <div className="error-message">
+            <div className="error-message" role="alert" aria-live="assertive">
               {error}
             </div>
           )}
