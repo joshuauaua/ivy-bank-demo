@@ -94,8 +94,8 @@ function Contact({ onBack }) {
         <div className="contact-form-section">
           <h3>Send Us a Message</h3>
           {submitted && (
-            <div className="success-message">
-              Thank you for your message! We'll get back to you within 24 hours.
+            <div className="success-message" role="status" aria-live="polite">
+              Thank you for your message! We&apos;ll get back to you within 24 hours.
             </div>
           )}
           <form className="contact-form" onSubmit={handleSubmit}>

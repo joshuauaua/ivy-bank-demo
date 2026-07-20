@@ -107,10 +107,12 @@
 }
 
 .transactions-table {
+  width: 100%;
   background: var(--bg-secondary);
   border-radius: 12px;
   box-shadow: 0 2px 4px var(--shadow);
   overflow: hidden;
+  border-collapse: collapse;
 }
 
 .table-header,
@@ -129,6 +131,11 @@
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.table-header th {
+  font-weight: 600;
+  text-align: left;
 }
 
 .table-row {
@@ -171,6 +178,12 @@
   font-weight: 500;
   color: var(--text-primary);
   text-align: right;
+}
+
+/* Make semantic table elements use grid layout like the original divs */
+.transactions-table thead,
+.transactions-table tbody {
+  display: contents;
 }
 
 @media (max-width: 768px) {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import Dashboard from './components/Dashboard'
 import Navbar from './components/Navbar'
@@ -14,6 +14,7 @@ import Footer from './components/Footer'
 function App() {
   const [activeView, setActiveView] = useState('dashboard')
   const [selectedAccount, setSelectedAccount] = useState(null)
+  const mainRef = useRef(null)
   const [accounts, setAccounts] = useState([
     {
       id: 1,
@@ -30,6 +31,13 @@ function App() {
       available: 45230.12
     }
   ])
+
+  // Move focus to main content on view change for screen reader context
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.focus()
+    }
+  }, [activeView])
 
   const navigateHome = () => {
     setActiveView('dashboard')
@@ -81,8 +89,14 @@ function App() {
     <ThemeProvider>
       <LanguageProvider>
         <div className="app">
+          <a href="#main-content" className="sr-only skip-link">Skip to main content</a>
           <Navbar activeView={activeView} setActiveView={setActiveView} onLogoClick={navigateHome} />
-          <main className="main-content">
+          <main
+            id="main-content"
+            className="main-content"
+            ref={mainRef}
+            tabIndex={-1}
+          >
             {renderView()}
           </main>
           <Footer />

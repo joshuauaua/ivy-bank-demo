@@ -78,10 +78,11 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
         <h3>{t('yourAccounts')}</h3>
         <div className="accounts-grid">
           {accounts.map(account => (
-            <div
+            <button
               key={account.id}
               className="account-card"
               onClick={() => onAccountClick(account)}
+              aria-label={`${t(account.type.toLowerCase())} ${account.accountNumber} — ${formatCurrency(account.balance, account.currency)}`}
             >
               <div className="account-type">{t(account.type.toLowerCase())}</div>
               <div className="account-number">{account.accountNumber}</div>
@@ -89,7 +90,7 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
                 {formatCurrency(account.balance, account.currency)}
               </div>
               <div className="account-available">{t('available')}: {formatCurrency(account.available, account.currency)}</div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -114,28 +115,32 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
 
       <section className="transactions-section">
         <h3>{t('recentTransactions')}</h3>
-        <div className="transaction-filters">
+        <div className="transaction-filters" role="group" aria-label={t('recentTransactions')}>
           <button
             className={`filter-btn ${transactionFilter === 'all' ? 'active' : ''}`}
             onClick={() => setTransactionFilter('all')}
+            aria-pressed={transactionFilter === 'all'}
           >
             {t('all')}
           </button>
           <button
             className={`filter-btn ${transactionFilter === '7days' ? 'active' : ''}`}
             onClick={() => setTransactionFilter('7days')}
+            aria-pressed={transactionFilter === '7days'}
           >
             {t('last7Days')}
           </button>
           <button
             className={`filter-btn ${transactionFilter === '30days' ? 'active' : ''}`}
             onClick={() => setTransactionFilter('30days')}
+            aria-pressed={transactionFilter === '30days'}
           >
             {t('last30Days')}
           </button>
           <button
             className={`filter-btn ${transactionFilter === 'thisMonth' ? 'active' : ''}`}
             onClick={() => setTransactionFilter('thisMonth')}
+            aria-pressed={transactionFilter === 'thisMonth'}
           >
             {t('thisMonth')}
           </button>
@@ -144,6 +149,7 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
           <input
             type="text"
             placeholder={t('searchTransactions')}
+            aria-label={t('searchTransactions')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -163,8 +169,8 @@ function Dashboard({ accounts, onAccountClick, onTransferClick }) {
             }
 
             // Apply load-more slicing when search is not active
-            const displayedTransactions = searchQuery 
-              ? finalFiltered 
+            const displayedTransactions = searchQuery
+              ? finalFiltered
               : finalFiltered.slice(0, visibleCount)
 
             return displayedTransactions.map(transaction => (

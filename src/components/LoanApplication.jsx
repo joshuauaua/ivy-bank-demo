@@ -131,6 +131,7 @@ function LoanApplication({ onBack }) {
               step={LOAN_CONFIG[formData.loanType].stepAmount}
               value={formData.amount}
               onChange={handleChange}
+              aria-valuetext={formatCurrency(formData.amount, formData.currency)}
               required
             />
             <div className="slider-labels">
@@ -166,6 +167,7 @@ function LoanApplication({ onBack }) {
               step="12"
               value={formData.term}
               onChange={handleChange}
+              aria-valuetext={`${formData.term} months`}
               required
             />
             <div className="slider-labels">

@@ -63,26 +63,30 @@ function AccountDetails({ account, onBack, onTransferClick }) {
 
       <section className="account-transactions">
         <h3>{t('transactionHistory')}</h3>
-        <div className="transactions-table">
-          <div className="table-header">
-            <div className="col-date">{t('date')}</div>
-            <div className="col-description">{t('description')}</div>
-            <div className="col-amount">{t('amount')}</div>
-            <div className="col-balance">{t('balance')}</div>
-          </div>
-          {recentTransactions.map(transaction => (
-            <div key={transaction.id} className="table-row">
-              <div className="col-date">{transaction.date}</div>
-              <div className="col-description">{transaction.description}</div>
-              <div className={`col-amount ${transaction.amount < 0 ? 'negative' : 'positive'}`}>
-                {transaction.amount > 0 ? '+' : ''}{formatCurrency(Math.abs(transaction.amount), account.currency)}
-              </div>
-              <div className="col-balance">
-                {formatCurrency(transaction.balance, account.currency)}
-              </div>
-            </div>
-          ))}
-        </div>
+        <table className="transactions-table">
+          <thead>
+            <tr className="table-header">
+              <th scope="col" className="col-date">{t('date')}</th>
+              <th scope="col" className="col-description">{t('description')}</th>
+              <th scope="col" className="col-amount">{t('amount')}</th>
+              <th scope="col" className="col-balance">{t('balance')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recentTransactions.map(transaction => (
+              <tr key={transaction.id} className="table-row">
+                <td className="col-date">{transaction.date}</td>
+                <td className="col-description">{transaction.description}</td>
+                <td className={`col-amount ${transaction.amount < 0 ? 'negative' : 'positive'}`}>
+                  {transaction.amount > 0 ? '+' : ''}{formatCurrency(Math.abs(transaction.amount), account.currency)}
+                </td>
+                <td className="col-balance">
+                  {formatCurrency(transaction.balance, account.currency)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
     </div>
   )

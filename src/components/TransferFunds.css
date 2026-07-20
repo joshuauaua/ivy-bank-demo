@@ -114,9 +114,10 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-select:focus,
-.form-input:focus {
-  outline: none;
+.form-select:focus-visible,
+.form-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
   border-color: #6366f1;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
